@@ -14,8 +14,6 @@ Quick and dirty script, so perhaps don't expect best coding practices.
 """
 
 if __name__ == "__main__":
-    f = open("/Users/uvin/Documents/transactions_list.csv", "r")
-    
     curr_transaction = ""
     take_next = False
     headers = []
@@ -23,25 +21,27 @@ if __name__ == "__main__":
 
     # Gather transactions
     is_first_line = True
-    for line in f:
-        
-        if is_first_line:
-            headers = line.translate(str.maketrans("", "", "\n\"")).replace("\ufeff", "").split(",")
-            is_first_line = False
-            print(headers)
-            continue
+    
+    with open("/Users/uvin/Documents/transactions_list.csv", "r") as f:
+        for line in f:
+            
+            if is_first_line:
+                headers = line.translate(str.maketrans("", "", "\n\"")).replace("\ufeff", "").split(",")
+                is_first_line = False
+                print(headers)
+                continue
 
-        # A transaction may be split into multiple lines.
-        if take_next:
-            curr_transaction += line
-        else:
-            curr_transaction = line
+            # A transaction may be split into multiple lines.
+            if take_next:
+                curr_transaction += line
+            else:
+                curr_transaction = line
 
-        if not line.endswith("\"\n"):
-            take_next = True
-        else:
-            transactions.append(curr_transaction)
-            take_next = False
+            if not line.endswith("\"\n"):
+                take_next = True
+            else:
+                transactions.append(curr_transaction)
+                take_next = False
     
     if take_next:
         transactions.append(curr_transaction)
@@ -88,14 +88,12 @@ if __name__ == "__main__":
             non_unique_transactions.append(",".join([trans[key] for key in headers]))
 
     # Write to files
-    f_new = open("/Users/uvin/Documents/transactions_list_unique.csv", "w")
-    f_new.write(",".join(headers) + "\n")
-    for trans in unique_transactions:
-        f_new.write(trans)
-    f_new.close()
+    with open("/Users/uvin/Documents/transactions_list_unique.csv", "w") as f_new:
+        f_new.write(",".join(headers) + "\n")
+        for trans in unique_transactions:
+            f_new.write(trans)
 
-    f_new = open("/Users/uvin/Documents/transactions_list_nonunique.csv", "w")
-    f_new.write(",".join(headers) + "\n")
-    for trans in non_unique_transactions:
-        f_new.write(trans)
-    f_new.close()
+    with open("/Users/uvin/Documents/transactions_list_nonunique.csv", "w") as f_new:
+        f_new.write(",".join(headers) + "\n")
+        for trans in non_unique_transactions:
+            f_new.write(trans)
