@@ -58,35 +58,11 @@ if __name__ == "__main__":
 
         # Assume last splits are the notes.
         if len(splits) > len(headers):
-            transDict[headers[-1]] = transDict[headers[-1]].join(splits[len(headers):])
+            transDict[headers[-1]] = "".join(splits[len(headers)-1:])
 
         all_transDict.append(transDict)
 
-    # all_non_unique_trans_ids = []
-    # for tid1, trans1 in enumerate(all_transDict):
-    #     # Note: not space efficient (duplicate entries) - but doesn't matter here.
-    #     non_unique_trans_ids = [tid1]
-    #     for tid2, trans2 in enumerate(all_transDict):
-    #         if tid1 == tid2:
-    #             continue
-            
-    #         is_same_title = trans1["Title"] == trans2["Title"]
-    #         is_same_price = trans1["Amount"] == trans2["Amount"]
-    #         is_same_category = trans1["Category"] == trans2["Category"]
-    #         is_same_comment = trans1["Notes"] == trans2["Notes"]
-
-    #         if is_same_title and is_same_price and is_same_category and is_same_comment:
-    #             non_unique_trans_ids.append(tid2)
-        
-    #     if len(non_unique_trans_ids) > 1:
-    #         print("Popping non_unique_trans_ids: {}".format(non_unique_trans_ids))
-    #         print("\t{}".format(all_transDict[tid1]))
-    #         print()
-    #         all_non_unique_trans_ids.append(non_unique_trans_ids)
-    #         ## Gemini found a bug!!
-    #         # for tid in non_unique_trans_ids:
-    #         #     transactions.pop(tid)
-
+    # Check uniqueness
     non_unique_trans_ids = set()
     for tid1, trans1 in enumerate(all_transDict):
         for tid2, trans2 in enumerate(all_transDict):
@@ -111,6 +87,7 @@ if __name__ == "__main__":
         else:
             non_unique_transactions.append(",".join([trans[key] for key in headers]))
 
+    # Write to files
     f_new = open("/Users/uvin/Documents/transactions_list_unique.csv", "w")
     f_new.write(",".join(headers) + "\n")
     for trans in unique_transactions:
