@@ -2,6 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 
 <!-- Adapted from https://gist.github.com/johndturn/09a5c055e6a56ab61212204607940fa0 -->
+<!-- Modified with Gemini -->
 
 <plist version="1.0">
     <dict>
@@ -12,13 +13,13 @@
         <string>Regular backup of personal Obsidian vault.</string>
 
         <key>Program</key>
-        <string>/Users/uvin/repos/personal_projs/QuickCode_Collections/launchd_obssync/obs_backup.sh</string>
+        <string>__SCRIPT_PATH__</string>
 
         <key>WorkingDirectory</key>
-        <string>/Users/uvin</string>
+        <string>__HOME_DIR__</string>
 
         <key>StandardErrorPath</key>
-        <string>/Users/uvin/Desktop/reconciler-error.log</string>
+        <string>__HOME_DIR__/Desktop/obs-backup-error.log</string>
 
         <key>EnvironmentVariables</key>
         <dict>
